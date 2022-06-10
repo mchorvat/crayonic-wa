@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>WebAuthn demo</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="webauthn.css">
+
+  </head>
+  <body>
+    <h1>WebAuthn Demo</h1>
+
+    <p>
+      Web Authentication API (WebAuthn) enables passwordless/usernameless authentication through your FIDO compliant Security Key.
+    </p>
+
+    <p>
+      Register your FIDO device using the 'Register device' button below, confirm by pressing the button on KeyVault and click 'Allow' when asked whether the site can see your security key. You can then authenticate using the registered credential.
+    </p>
+
+    <p>
+      Note: MacOS currently supports WebAuthn standard only via USB, while iOS via NFC and USB. Windows and Android users can use USB, BLE and NFC. Linux users please start with USB first.
+    </p>
+
+    <div id="demo-buttons">
+      <material-button id="register-button" label="Register device" raised></material-button>
+      <material-button id="authenticate-button" label="Authenticate" raised></material-button>
+      <i class="material-icons" id="loader">autorenew</i>
+
+      <material-dialog id="auth-dialog">
+        <h3 slot="header">WebAuthn Demo</h3>
+        <p slot="body"></p>
+        <footer slot="footer">
+          <material-button label="Close" id="close-dialog"></material-button>
+        </footer>
+      </material-dialog>
+    </div>
+
+    <material-button id="delete-button" label="Unregister device" raised>
+      <i class="material-icons" slot="left-icon">delete</i>
+    </material-button>
+
+
+    <script type="module">
+      import './material-button.js';
+      import './material-dialog.js';
+    </script>
+
+    <script src="./webauthn.js"></script>
+
+  </body>
+</html>

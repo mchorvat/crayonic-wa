@@ -1,7 +1,7 @@
 {
   "name": "crayonic-wa",
-  "version": "1.0.0",
-  "description": "WebAuthn Demo - passwordless Web Authentication",
+  "version": "1.0.1",
+  "description": "WebAuthn Demo - Simple passwordless Web Authentication Demo",
   "main": "webauthn.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

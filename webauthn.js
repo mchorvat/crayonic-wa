@@ -59,7 +59,7 @@ const register = async () => {
       }
     };
 
-    await (await fetch(`${apiUrl}/register`, {
+    const resp = await (await fetch(`${apiUrl}/register`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -74,6 +74,10 @@ const register = async () => {
     deleteButton.style.display = 'block';
 
     dialogBody.innerHTML = 'Registration successful!';
+
+    console.log(JSON.stringify({credential: data}));
+    console.log(JSON.stringify(resp));
+
     authDialog.open();
   }
   catch(e) {
@@ -150,6 +154,10 @@ const authenticate = async () => {
       const assertionResponse = await response.json();
 
       dialogBody.innerHTML = 'Authentication successful!';
+
+      console.log(JSON.stringify({credential: data})),
+      console.log(JSON.stringify(assertionResponse));
+
       authDialog.open();
     }
   }

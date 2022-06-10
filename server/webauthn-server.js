@@ -1,8 +1,7 @@
 //
-// Crayonic Gateway WebAuthn Demo (crayonic-wa)
-// 12/2021 Marek Chorvat
+// Crayonic WebAuthn Demo (crayonic-wa)
 // v 1.0.0: 15.12.2021
-//
+// v 1.0.1: 10.6.2022 - several improvements for HackFest 2022
 
 const https = require('https');
 const fs = require('fs');
@@ -110,6 +109,9 @@ app.post(`${apiRoot}/register`, async (req, res) => {
 
     // req.session.save();
 
+    console.log(`Input: credential: ${JSON.stringify(credential)}, attestationExpectations: ${JSON.stringify(attestationExpectations)}`);
+    console.log(`Result: ${JSON.stringify(regResult)}`);
+
     res.status(200).json({status: 'ok'});
   }
   catch(e) {
@@ -127,7 +129,6 @@ app.get(`${apiRoot}/authenticate-options`, async (req, res) => {
   authnOptions.challenge = Buffer.from(authnOptions.challenge);
 
   // req.session.save();
-  // console.log(JSON.stringify(authnOptions));
 
   res.status(200).json(authnOptions);
 });
@@ -165,11 +166,11 @@ app.post(`${apiRoot}/authenticate`, async (req, res) => {
     };
 
     try {
-      await fido.assertionResult(credential, assertionExpectations); // will throw on error
+      const assertResult = await fido.assertionResult(credential, assertionExpectations); // will throw on error
 
       // req.session.save();
-      // console.log(JSON.stringify(credential));
-      // console.log(JSON.stringify(assertionExpectations));      
+      console.log(`Input: credential: ${JSON.stringify(credential)}, assertionExpectations: ${JSON.stringify(assertionExpectations)}`);
+      console.log(`Result: ${JSON.stringify(assertResult)}`);
 
       res.status(200).json({status: 'ok'});
     }

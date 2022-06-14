@@ -1,7 +1,7 @@
 {
-  "name": "crayonic-wa",
-  "version": "1.0.1",
-  "description": "WebAuthn Demo - Simple passwordless Web Authentication Demo",
+  "name": "webauthn-demo",
+  "version": "1.0.2",
+  "description": "Crayonic WebAuthn Demo - Simple Passwordless Web Authentication Demo",
   "main": "webauthn.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,13 +10,12 @@
     "local": "concurrently \"npm run serve\" \"npm run webauthn-server\"",
     "start": "node server/webauthn-server.js"
   },
-  "author": "Marek Chorvat <mchorvat@gmail.com>, Danny Moerkerke <danny@dannymoerkerke.nl>",
+  "author": "Marek Chorvat <marek@chorvat.org>, Danny Moerkerke <danny@dannymoerkerke.nl>",
   "license": "ISC",
   "dependencies": {
     "base64url": "^3.0.1",
     "body-parser": "^1.19.0",
     "concurrently": "^6.4.0",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "error-handler": "^1.0.0",
     "errorhandler": "^1.5.1",

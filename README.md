@@ -2,7 +2,11 @@
 # Web Authentication demo
 A simple HTML/Javascript (Frontend) / NodeJs (Backend) passwordless authentication demo using Web Authentication API (WebAuthn).
 
-Code is based on https://github.com/DannyMoerkerke/webauthn-demo
+### WebAuthn Documentation/Links
+
+- latest published version: https://www.w3.org/TR/webauthn-3/
+- editor's draft version: https://w3c.github.io/webauthn/
+- Source Code of this demo is based on https://github.com/DannyMoerkerke/webauthn-demo
 
 
 ### Install and run: localhost

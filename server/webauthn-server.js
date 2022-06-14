@@ -1,7 +1,9 @@
 //
-// Crayonic WebAuthn Demo (crayonic-wa)
+// Crayonic WebAuthn Demo (webauthn-demo)
 // v 1.0.0: 15.12.2021
 // v 1.0.1: 10.6.2022 - several improvements for HackFest 2022
+// v 1.0.2: 14.6.2022 - fine-tuning for HackFest 2022, published to https://gitlab.com/crayonic/webauthn-demo
+//
 
 const https = require('https');
 const fs = require('fs');
@@ -10,15 +12,12 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 
-// const cookieParser = require('cookie-parser');
 const errorHandler = require('errorhandler');
 const cors = require('cors');
 
 const {Fido2Lib} = require('fido2-lib');
 const crypto = require('crypto');
 const base64url = require('base64url');
-
-// const session = require('./middleware/session');
 
 const fido = new Fido2Lib({
   timeout: 60000,
@@ -34,12 +33,11 @@ const fido = new Fido2Lib({
 });
 
 const origin = 'https://localhost:8000';
-const apiRoot = '/wa'; // crayonic.io/wa/
+const apiRoot = '/wa';
 
 const app = express();
 app.set('trust proxy', 1);  //if we are behind proxy (nginx/kubernetes)
 
-// app.use(cookieParser('CrayonicKeyVaultFTW2022!'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(cors({
@@ -51,7 +49,7 @@ app.use(cors({
 app.use(session({
   secret: 'CrayonicKeyVaultFTW2022!',
   store: new FileStore({
-      ttl: 1000 * 60 * 60 * 24 * 7  // session time to live - week 
+      ttl: 1000 * 60 * 60 * 24 * 7  // session time to live = 1 week 
     }),
     resave: false,
     saveUninitialized: false
@@ -73,8 +71,6 @@ app.get(`${apiRoot}/register-options`, async (req, res) => {
   // registrationOptions.authenticatorSelection = {authenticatorAttachment: 'platform'};
 
   registrationOptions.authenticatorSelection = {authenticatorAttachment: 'cross-platform'};
-
-  // req.session.save();
 
   res.status(200).json(registrationOptions);
 });
@@ -107,8 +103,6 @@ app.post(`${apiRoot}/register`, async (req, res) => {
     req.session.publicKey = regResult.authnrData.get('credentialPublicKeyPem');
     req.session.prevCounter = regResult.authnrData.get('counter');
 
-    // req.session.save();
-
     console.log(`Input: credential: ${JSON.stringify(credential)}, attestationExpectations: ${JSON.stringify(attestationExpectations)}`);
     console.log(`Result: ${JSON.stringify(regResult)}`);
 
@@ -127,8 +121,6 @@ app.get(`${apiRoot}/authenticate-options`, async (req, res) => {
   req.session.challenge = Buffer.from(authnOptions.challenge);
 
   authnOptions.challenge = Buffer.from(authnOptions.challenge);
-
-  // req.session.save();
 
   res.status(200).json(authnOptions);
 });
@@ -166,9 +158,8 @@ app.post(`${apiRoot}/authenticate`, async (req, res) => {
     };
 
     try {
-      const assertResult = await fido.assertionResult(credential, assertionExpectations); // will throw on error
+      const assertResult = await fido.assertionResult(credential, assertionExpectations);
 
-      // req.session.save();
       console.log(`Input: credential: ${JSON.stringify(credential)}, assertionExpectations: ${JSON.stringify(assertionExpectations)}`);
       console.log(`Result: ${JSON.stringify(assertResult)}`);
 
@@ -195,7 +186,7 @@ https.createServer(
     // starting up
     //
     console.log('');
-    console.log(`Crayonic WebAuthn Demo [crayonic-wa] started`);
+    console.log(`Crayonic WebAuthn Demo [webauthn-demo] started`);
     console.log(`Running on Node.js ${process.version}`);
     console.log(`Environment: ${process.env.NODE_ENV}, Running at https://0.0.0.0:${PORT}`);
     console.log('');    
